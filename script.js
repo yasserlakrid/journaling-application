@@ -23,43 +23,70 @@ let listofjournals = JSON.parse(localStorage.getItem('list')) || [];
 let localJournal;
 let newjournal;
 let newjour;
-//localStorage.clear('list')
+let removeBtn;
+
 // Initialize Journals
-if (listofjournals.length > 0) {
-    for (let i = 0; i < listofjournals.length; i++) {
-        let element = listofjournals[i];
-        listofjournalHtml.innerHTML += `
-            <div class='journalnameHtml'>
-                <button class='localJournal' id=${i}>${listofjournals[i].journalName}</button>
-                <button class='delete'>delete</button>
-                <button class='addm'>new</button>
-            </div>
-        `;
+function render() {
+    listofjournalHtml.innerHTML = ''; // Clear the existing list
+
+    if (listofjournals.length > 0) {
+        for (let i = 0; i < listofjournals.length; i++) {
+            let element = listofjournals[i];
+            if (element.journalName == '') {
+                element.journalName = 'Journal title';
+            }
+
+            listofjournalHtml.innerHTML += `
+                <div class='journalnameHtml'>
+                    <button class='localJournal' id=${i}>${element.journalName}</button>
+                    <button class='delete' id=${i}>delete</button>
+                    <button class='addm'>new</button>
+                </div>
+            `;
+        }
     }
 
     localJournal = document.querySelectorAll('.localJournal');
     localJournal.forEach((element) => {
         element.addEventListener('click', () => {
-            if (coverpic) {
-                history.push('newjournal');
-                
-                console.log(listofjournals[element.id], element.id);
-                newjournalacc(element);
-                returning(newjournal);
-            }
+            history.push('newjournal');
+            newjournalacc(element);
+            
+            returning(newjournal);
         });
     });
+
+    removeBtn = document.querySelectorAll('.delete');
+    removeBtn.forEach((element) => {
+        element.addEventListener('click', () => {
+            listofjournals.splice(element.id, 1);
+            localStorage.setItem('list', JSON.stringify(listofjournals));
+            render(); // Re-render the list
+        });
+    });
+    if(listofjournals.length!==0){
+       newjour = document.querySelectorAll('.addm');
+        newjour.forEach((element) => {
+        element.addEventListener('click', addNewJournal);
+        }); 
+    }else{
+        newjour = document.querySelector('.add');
+        newjour.addEventListener('click', ()=>{
+            addNewJournal()
+        }
+        )
+    }
+
 }
+
+render();
 
 function newjournalacc(journalElement) {
     cover.classList.add('coverfade');
     wel.style.display = 'none';
     coverpic = false;
     journal.style.display = 'block';
-
     const journalID = journalElement.id;
-
-    console.log(journalID);
 
     if (listofjournals.length > 0) {
         journal.innerHTML = `
@@ -69,7 +96,7 @@ function newjournalacc(journalElement) {
                     <input type="time" class='journalTime' id="${journalID}">
                 </div>
                 <input type='text' class='journalTitle' value='${listofjournals[journalID].journalName}'>
-                <input type='text' class='journalinput' placeholder='start writing here'>
+                <input type='text' class='journalinput' placeholder='start writing here' value='${listofjournals[journalID].journal}'>
             </div>
         `;
     } else {
@@ -83,22 +110,13 @@ function newjournalacc(journalElement) {
                 <input type='text' class='journalinput' placeholder='start writing here'>
             </div>
         `;
-        console.log('guck');
     }
-        
+
     let journalTitleHtml = document.querySelector('.journalTitle');
     journalTitleHtml.addEventListener('keydown', (event) => {
-        console.log(event.key);
-
-        if (!listofjournals[journalID]) {
-            listofjournals[journalID] = { journalName: '' };
-        }
-
         if (event.key === 'Backspace') {
-            // Handle backspace: remove the last character
             listofjournals[journalID].journalName = listofjournals[journalID].journalName.slice(0, -1);
         } else if (event.key.length === 1) {
-            // Handle regular keypress: add the character
             listofjournals[journalID].journalName += event.key;
         }
 
@@ -107,44 +125,42 @@ function newjournalacc(journalElement) {
         if (listofjournals[journalID].journalName.length < 40) {
             localStorage.setItem('list', JSON.stringify(listofjournals));
         }
-        journalElement.innerHTML=listofjournals[journalID].journalName
-        if(journalElement.innerHTML==''){
-            journalElement.innerHTML='title'
+        journalElement.innerHTML = listofjournals[journalID].journalName;
+        if (journalElement.innerHTML == '') {
+            journalElement.innerHTML = 'Journal title';
         }
-        // Prevent default behavior to ensure custom handling
+    
         event.preventDefault();
     });
-
-}
-
-if (listofjournals.length > 0 && listofjournals[0].journalName !== 'New journal') {
-    newjour = document.querySelectorAll('.addm');
-    newjour.forEach((element) => {
-        element.addEventListener('click', addNewJournal);
-    });
-} else {
-    newjour = document.querySelector('.add');
-    newjour.addEventListener('click', addNewJournal);
+    let journalText = document.querySelector('.journalinput')
+    journalText.addEventListener('keydown',(event)=>{
+        if (event.key === 'Backspace') {
+            listofjournals[journalID].journal= listofjournals[journalID].journalName.slice(0, -1);
+        } else if (event.key.length === 1) {
+            listofjournals[journalID].journal += event.key;
+        }
+        
+        localStorage.setItem('list', JSON.stringify(listofjournals));
+    })
+    let journalDateHtml=document.querySelector('.journalDate')
+    journalDateHtml.addEventListener('input',()=>{
+        listofjournals[journalID].journalDate = journalDateHtml.value
+        console.log(listofjournals[journalID].journalDate)
+        localStorage.setItem('list', JSON.stringify(listofjournals));
+    })
+    let journalTimeHtml=document.querySelector('.journalTime')
+    journalTimeHtml.addEventListener('input',()=>{
+        listofjournals[journalID].journalTime = journalTimeHtml.value
+        console.log(listofjournals[journalID].journalTime)
+        localStorage.setItem('list', JSON.stringify(listofjournals));
+    })
 }
 
 function addNewJournal() {
-    newjournal = { journalDate: undefined, journalTime: undefined, journalName: "New journal", id: listofjournals.length };
+    newjournal = {journal:'',journalDate: undefined, journalTime: undefined, journalName: "New journal", id: listofjournals.length };
     listofjournals.push(newjournal);
     localStorage.setItem('list', JSON.stringify(listofjournals));
-
-    listofjournalHtml.innerHTML += `
-        <div class='journalnameHtml'>
-            <button class='localJournal' id="${newjournal.id}">${newjournal.journalName}</button>
-            <button class='delete'>delete</button>
-            <button class='addm'>new</button>
-        </div>
-    `;
-
-    if (coverpic) {
-        history.push('newjournal');
-        newjournalacc(document.getElementById(newjournal.id));
-        returning(newjournal);
-    }
+    render(); // Re-render the list
 }
 
 function returning(newjournal) {
@@ -180,7 +196,7 @@ function toggleBlur(event) {
     }
 }
 
-sidebar.addEventListener('click', function() {
+sidebar.addEventListener('click', function () {
     if (blurApplied) {
         sidebar.style.filter = 'blur(0px)';
         primaryfr.style.filter = 'blur(0px)';
@@ -192,7 +208,7 @@ sidebar.addEventListener('click', function() {
     }
 });
 
-primaryfr.addEventListener('click', function() {
+primaryfr.addEventListener('click', function () {
     if (blurApplied) {
         sidebar.style.filter = 'blur(0px)';
         primaryfr.style.filter = 'blur(0px)';
@@ -204,7 +220,7 @@ primaryfr.addEventListener('click', function() {
     }
 });
 
-body.addEventListener('click', function(event) {
+body.addEventListener('click', function (event) {
     if (event.target.classList.contains('newpage')) {
         toggleBlur(event);
         if (!windowshowed) {
