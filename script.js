@@ -43,6 +43,16 @@ function render() {
                     <button class='addm'>new</button>
                 </div>
             `;
+           /* let completeJournal=document.querySelectorAll('.journalnameHtml').forEach((element)=>{
+                element.addEventListener('click',()=>{
+                    element.innerHTML=`
+                    <button class='localJournal' id=${i}>${element.journalName}</button>
+                    <button class='delete' id=${i}>delete</button>
+                    <button class='addm'>new</button>
+                    <p>date = ${element.journalDate}
+                    `
+                })
+            })*/
         }
     }
 
@@ -92,19 +102,19 @@ function newjournalacc(journalElement) {
         journal.innerHTML = `
             <div class="thejournal" id="${journalID}">
                 <div class='information'>
-                    <input type="date" class='journalDate' id="${journalID}">
-                    <input type="time" class='journalTime' id="${journalID}">
+                    <input type="date" class='journalDate' id="${journalID}" value="${listofjournals[journalID].journalDate}">
+                    <input type="time" class='journalTime' id="${journalID}" value="${listofjournals[journalID].journalTime}">
                 </div>
                 <input type='text' class='journalTitle' value='${listofjournals[journalID].journalName}'>
-                <input type='text' class='journalinput' placeholder='start writing here' value='${listofjournals[journalID].journal}'>
+                <input type='text' class='journalinput' id="myTextarea" rows="4" cols="50" placeholder='start writing here' value='${listofjournals[journalID].journal}'>
             </div>
         `;
     } else {
         journal.innerHTML = `
             <div class="thejournal" id="${journalID}">
                 <div class='information'>
-                    <input type="date" class='journalDate' id="${journalID}">
-                    <input type="time" class='journalTime' id="${journalID}">
+                    <input type="date" class='journalDate' id="${journalID}"  value="${listofjournals[journalID].journalDate}">
+                    <input type="time" class='journalTime' id="${journalID}"  value="${listofjournals[journalID].journalTime}">
                 </div>
                 <input type='text' class='journalTitle' value='${journalElement.journalName}'>
                 <input type='text' class='journalinput' placeholder='start writing here'>
@@ -145,7 +155,8 @@ function newjournalacc(journalElement) {
     let journalDateHtml=document.querySelector('.journalDate')
     journalDateHtml.addEventListener('input',()=>{
         listofjournals[journalID].journalDate = journalDateHtml.value
-        console.log(listofjournals[journalID].journalDate)
+        
+        console.log(journalDateHtml.value)
         localStorage.setItem('list', JSON.stringify(listofjournals));
     })
     let journalTimeHtml=document.querySelector('.journalTime')
