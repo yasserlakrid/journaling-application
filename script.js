@@ -10,7 +10,7 @@ let wel = document.querySelector('.wl');
 let backbtn = document.querySelector('.back');
 let listofjournalHtml = document.querySelector('.sec-lis-2');
 let journal = document.querySelector('.journal');
-
+let topList = document.querySelector('.list')
 // State Variables
 let blurApplied = false;
 let windowshowed = false;
@@ -26,6 +26,7 @@ let newjour;
 let removeBtn;
 
 // Initialize Journals
+
 function render() {
     listofjournalHtml.innerHTML = ''; // Clear the existing list
 
@@ -39,8 +40,8 @@ function render() {
             listofjournalHtml.innerHTML += `
                 <div class='journalnameHtml'>
                     <button class='localJournal' id=${i}>${element.journalName}</button>
-                    <button class='delete' id=${i}>delete</button>
-                    <button class='addm'>new</button>
+                    <button class='addm'></button>
+                    <button class='delete' id=${i}></button>
                 </div>
             `;
            /* let completeJournal=document.querySelectorAll('.journalnameHtml').forEach((element)=>{
@@ -198,10 +199,12 @@ function toggleBlur(event) {
     if (!blurApplied) {
         sidebar.style.filter = 'blur(10px)';
         primaryfr.style.filter = 'blur(10px)';
+        topList.style.filter = 'blur(10px)'
         addwind.style.filter = 'none';
         blurApplied = true;
     } else {
         sidebar.style.filter = 'blur(0px)';
+        topList.style.filter = 'blur(0px)';
         primaryfr.style.filter = 'blur(0px)';
         blurApplied = false;
     }
@@ -211,6 +214,8 @@ sidebar.addEventListener('click', function () {
     if (blurApplied) {
         sidebar.style.filter = 'blur(0px)';
         primaryfr.style.filter = 'blur(0px)';
+        topList.style.filter = 'blur(0px)';
+
         blurApplied = false;
     }
     if (windowshowed) {
@@ -223,6 +228,8 @@ primaryfr.addEventListener('click', function () {
     if (blurApplied) {
         sidebar.style.filter = 'blur(0px)';
         primaryfr.style.filter = 'blur(0px)';
+        topList.style.filter = 'blur(0px)';
+
         blurApplied = false;
     }
     if (windowshowed) {
