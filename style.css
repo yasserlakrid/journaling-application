@@ -39,7 +39,7 @@ justify-content: center;
     background-repeat: no-repeat;
     background-image: url(delete.png);
     background-size: contain;
-    justify-self: center;
+    justify-self: end;
 
 
 }
@@ -57,7 +57,7 @@ justify-content: center;
     flex-direction: row; /* Arrange buttons vertically */
     text-align: center;
     display: grid;
-    grid-template-columns: 50% 25% 25%;
+    grid-template-columns: 50% 17% 17% 17%;
 }
 .localJournal{
     justify-self: start;
