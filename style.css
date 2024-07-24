@@ -25,8 +25,8 @@ justify-content: center;
     background-size: contain;
 }
 .addm{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background-repeat: no-repeat;
     background-image: url(add.png);
     background-size: contain;
@@ -34,8 +34,8 @@ justify-content: center;
 
 }
 .delete{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background-repeat: no-repeat;
     background-image: url(delete.png);
     background-size: contain;
@@ -63,7 +63,7 @@ justify-content: center;
     justify-self: start;
     color: black;
     font-size: large;
-    
+
     text-align: center;
     
 }
