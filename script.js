@@ -42,6 +42,7 @@ function render() {
                     <button class='localJournal' id=${i}>${element.journalName}</button>
                     <button class='addm'></button>
                     <button class='delete' id=${i}></button>
+                    <button class='more' id=${i}><buttton> 
                 </div>
             `;
            /* let completeJournal=document.querySelectorAll('.journalnameHtml').forEach((element)=>{
