@@ -43,6 +43,14 @@ justify-content: center;
 
 
 }
+.more{
+    width: 25px;
+    height: 23px;
+    background-repeat: no-repeat;
+    background-image: url(more.png);
+    background-size: contain;
+    justify-self: center;
+}
 .journalnameHtml {
     display: flex;
     align-items: center;
