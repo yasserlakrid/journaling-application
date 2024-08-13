@@ -108,7 +108,7 @@ function newjournalacc(journalElement) {
                     <input type="time" class='journalTime' id="${journalID}" value="${listofjournals[journalID].journalTime}">
                 </div>
                 <input type='text' class='journalTitle' value='${listofjournals[journalID].journalName}'>
-                <textarea  class='journalinput' rows="4" cols="50" placeholder='start writing here' value='${listofjournals[journalID].journal}'></textarea>
+                <input type='text' class='journalinput' id="myTextarea" rows="4" cols="50" placeholder='start writing here' value='${listofjournals[journalID].journal}'>
             </div>
         `;
     } else {
@@ -119,7 +119,7 @@ function newjournalacc(journalElement) {
                     <input type="time" class='journalTime' id="${journalID}"  value="${listofjournals[journalID].journalTime}">
                 </div>
                 <input type='text' class='journalTitle' value='${journalElement.journalName}'>
-                <input type='text' class='journalinput' value='${listofjournals[journalID].journal} placeholder='start writing here'>
+                <input type='text' class='journalinput' placeholder='start writing here'>
             </div>
         `;
     }
@@ -144,15 +144,12 @@ function newjournalacc(journalElement) {
     
         event.preventDefault();
     });
-    
     let journalText = document.querySelector('.journalinput')
-    
     journalText.addEventListener('keydown',(event)=>{
         if (event.key === 'Backspace') {
             listofjournals[journalID].journal= listofjournals[journalID].journalName.slice(0, -1);
         } else if (event.key.length === 1) {
-            console.log()
-            listofjournals[journalID].journal += journalText.value;
+            listofjournals[journalID].journal += event.key;
         }
         
         localStorage.setItem('list', JSON.stringify(listofjournals));
